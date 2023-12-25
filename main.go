@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -36,8 +37,14 @@ func main() {
 		fmt.Println("error reading source dir :, ", err.Error())
 		return
 	}
-	// for _, f := range files {
-	f := files[0]
+	var f fs.FileInfo
+	for _, file := range files {
+		if file.Name() == "smartchain.key" {
+			f = file
+			break
+		}
+	}
+
 	fks := filekeystore.New(sourceDir)
 	sourceFile := filepath.Join(sourceDir, f.Name())
 	keyName := strings.Split(f.Name(), ".")
@@ -59,10 +66,8 @@ func main() {
 		fmt.Println("error marshalling key :", err.Error())
 		return
 	}
-	// msg += string(content) + "\n"
 	fmt.Println(sourceFile, " : ", string(content))
 
-	// }
 	writePubKey(string(content))
 }
 
