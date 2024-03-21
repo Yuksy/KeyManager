@@ -23,9 +23,11 @@ func main() {
 		fmt.Println(err, "id.txt nof found!")
 		return
 	}
-	fmt.Println("Password:", password)
+
+	// password := "7gck5794xm9c57ec111a"
+	// fmt.Println("Password:", password)
 	// if len(os.Args) != 3 {
-	// 	fmt.Println("exportSwarmKey <sourceDir> <password>")
+	// 	fmt.Println("exportSmartChanKey <sourceDir> <password>")
 	// 	return
 	// }
 
@@ -111,7 +113,7 @@ func GetIdKey() (string, error) {
 	scanner := bufio.NewScanner(file)
 
 	if scanner.Scan() {
-		return scanner.Text()[1:], nil
+		return strings.ReplaceAll(scanner.Text(), " ", ""), nil
 	} else {
 		return "Error reading file", scanner.Err()
 	}
